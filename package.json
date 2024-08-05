@@ -9,7 +9,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "@types/cesium": "^1.70.0",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4"
+  },
   "dependencies": {
-    "cesium": "^1.105.0"
+    "cesium": "^1.120.0"
   }
 }

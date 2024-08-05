@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Include the CesiumJS JavaScript and CSS files -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  <script type="module">
+  const viewer = new Cesium.Viewer('cesiumContainer');    
+  
+  viewer.camera.setView({
+    destination : Cesium.Cartesian3.fromDegrees(113.392987,23.051086, 10000),
+    orientation: {
+  heading: Cesium.Math.toRadians(0),
+  pitch: Cesium.Math.toRadians(-90),
+  roll: 0.0
+}
+  });
+
+  viewer.entities.add({
+    id:'myrect',
+        rectangle: {
+         
+          coordinates: Cesium.Rectangle.fromDegrees(113.392987,23.051086, 113.5,23.1),
+          material: new Cesium.StripeMaterialProperty({
+            evenColor: Cesium.Color.YELLOW,
+            oddColor: Cesium.Color.RED,
+            repeat: 10
+          })
+        }
+      })
+    //   setTimeout(()=>{
+    //   const c=viewer.entities.getById('myrect')
+    //   console.log(c)
+    //   c.rectangle. coordinates=Cesium.Rectangle.fromDegrees(113.392987,23.001086, 113.5,23.1) 
+    // },5000)
+
+    const scene = viewer.scene;
+    const instance = new Cesium.GeometryInstance({
+  geometry: new Cesium.RectangleGeometry({
+    rectangle: Cesium.Rectangle.fromDegrees(113.52987,23.051086, 113.5,23.1),
+    vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+  }),
+});
+
+scene.primitives.add(
+  new Cesium.Primitive({
+    geometryInstances: instance,
+    appearance: new Cesium.EllipsoidSurfaceAppearance({
+      material: Cesium.Material.fromType("Stripe"),
+    }),
+  })
+);
+  </script>
+ </div>
+</body>
+</html>

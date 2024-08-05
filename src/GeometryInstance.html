@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Include the CesiumJS JavaScript and CSS files -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  <script type="module">
+  const viewer = new Cesium.Viewer('cesiumContainer');    
+  
+  viewer.camera.setView({
+    destination : Cesium.Cartesian3.fromDegrees(-100.0, 20, 10000),
+    orientation: {
+  heading: Cesium.Math.toRadians(0),
+  pitch: Cesium.Math.toRadians(-90),
+  roll: 0.0
+}
+  });
+  {
+    var scene = viewer.scene;
+// 1. Draw a translucent ellipse on the surface with a checkerboard pattern
+// 椭圆形平面
+const instance = new Cesium.GeometryInstance({
+  geometry : new Cesium.EllipseGeometry({
+      center : Cesium.Cartesian3.fromDegrees(-100.0, 20.0),
+      semiMinorAxis : 500000.0,
+      semiMajorAxis : 1000000.0,
+      rotation : Cesium.Math.PI_OVER_FOUR,
+      vertexFormat : Cesium.VertexFormat.POSITION_AND_ST
+  }),
+  id : 'object returned when this instance is picked and to get/set per-instance attributes'
+});
+scene.primitives.add(new Cesium.Primitive({
+  geometryInstances : instance,
+  appearance : new Cesium.EllipsoidSurfaceAppearance({
+    material : Cesium.Material.fromType('Checkerboard')
+  })
+}));
+// 2. Draw different instances each with a unique color
+//平面矩形
+const rectangleInstance = new Cesium.GeometryInstance({
+  geometry : new Cesium.RectangleGeometry({
+    rectangle : Cesium.Rectangle.fromDegrees(-140.0, 30.0, -100.0, 40.0),
+    vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT
+  }),
+  id : 'rectangle',
+  attributes : {
+    color : new Cesium.ColorGeometryInstanceAttribute(0.0, 1.0, 1.0, 0.5)
+  }
+});
+//椭圆球体
+const ellipsoidInstance = new Cesium.GeometryInstance({
+  geometry : new Cesium.EllipsoidGeometry({
+    radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
+    vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
+  }),
+  modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
+    Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
+  id : 'ellipsoid',
+  attributes : {
+    color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
+  }
+});
+//添加形状
+scene.primitives.add(new Cesium.Primitive({
+  geometryInstances : [rectangleInstance, ellipsoidInstance],
+  appearance : new Cesium.PerInstanceColorAppearance()
+}));
+// 3. Create the geometry on the main thread.
+scene.primitives.add(new Cesium.Primitive({
+  geometryInstances : new Cesium.GeometryInstance({
+    geometry : Cesium.EllipsoidGeometry.createGeometry(new Cesium.EllipsoidGeometry({
+      radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
+      vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
+    })),
+    modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
+      Cesium.Cartesian3.fromDegrees(-30.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
+    id : 'ellipsoid',
+    attributes : {
+      color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.RED)
+    }
+  }),
+  appearance : new Cesium.PerInstanceColorAppearance(),
+  asynchronous : false
+}));
+}
+  </script>
+ </div>
+</body>
+</html>
