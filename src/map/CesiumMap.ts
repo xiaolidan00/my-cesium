@@ -2,23 +2,16 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 
 import * as Cesium from 'cesium';
 
+import type { OrientType, PosType } from './types.d';
+
+import { EntityUtil } from './EntityUtil';
 import { HtmlOverlay } from './HtmlOverlay';
 
 console.log(Cesium);
-export type DegType = {
-  lng: number;
-  lat: number;
-  height: number;
-};
-export type OrientType = {
-  heading: number;
-  pitch: number;
-  roll: number;
-};
 
 export class CesiumMap {
   viewer: Cesium.Viewer;
-
+  entityUtil: EntityUtil;
   htmlOverlay: HtmlOverlay;
   listener: Cesium.Event.RemoveCallback;
   constructor(containerId: string) {
@@ -88,14 +81,18 @@ export class CesiumMap {
     //添加html
     this.htmlOverlay = new HtmlOverlay(viewer);
 
+    //添加实体
+    this.entityUtil = new EntityUtil(viewer);
+
     this.listener = this.viewer.scene.preRender.addEventListener(() => {});
   }
   destroy() {
     this.htmlOverlay.destroy();
+    this.entityUtil.destroy();
     this.listener();
   }
 
-  setView(deg: DegType, o: OrientType) {
+  setView(deg: PosType, o: OrientType) {
     this.viewer.camera.setView({
       destination: Cesium.Cartesian3.fromDegrees(deg.lng, deg.lat, deg.height),
       orientation: {
@@ -105,7 +102,7 @@ export class CesiumMap {
       }
     });
   }
-  flyTo(deg: DegType, o: OrientType, duration: number) {
+  flyTo(deg: PosType, o: OrientType, duration: number) {
     this.viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(deg.lng, deg.lat, deg.height),
       orientation: o

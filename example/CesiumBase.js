@@ -5,7 +5,7 @@ export default class CesiumBase {
     this.selectedColor = Cesium.Color.LIME;
   }
   init(options) {
-    const viewer = new Cesium.Viewer("cesiumContainer", options);
+    const viewer = new Cesium.Viewer('cesiumContainer', options);
     this.viewer = viewer;
     if (this.isClick) {
       this.onClick();
@@ -15,126 +15,10 @@ export default class CesiumBase {
     }
   }
   createMap() {}
-  addBox(id, pos, size, style) {
-    this.addEntity(id, pos, {
-      box: {
-        dimensions: new Cesium.Cartesian3(size.width, size.height, size.depth),
-        ...style,
-      },
-    });
-  }
 
-  addCircle(id, pos, size, style) {
-    this.addEntity(id, pos, {
-      ellipse: {
-        semiMinorAxis: size.height,
-        semiMajorAxis: size.width,
-        extrudedHeight: size.depth,
-        ...style,
-      },
-    });
-  }
-  addCylinder(id, pos, size, style) {
-    this.addEntity(id, pos, {
-      cylinder: {
-        length: size.height,
-        topRadius: size.top,
-        bottomRadius: size.bottom,
-        ...style,
-      },
-    });
-  }
-  addCorridor(id, size, path, style) {
-    this.viewer.entities.add({
-      id,
-      corridor: {
-        positions: Cesium.Cartesian3.fromDegreesArray(path),
-        extrudedHeight: size.depth,
-        width: size.width,
-        height: size.height,
-        ...style,
-      },
-    });
-  }
-  addSphere(id, pos, size, style) {
-    this.addEntity(id, pos, {
-      ellipsoid: {
-        radii: new Cesium.Cartesian3(size.width, size.height, size.depth),
-        ...style,
-      },
-    });
-  }
-
-  addPloygon(id, shape, style) {
-    this.viewer.entities.add({
-      id,
-      polygon: {
-        hierarchy: shape,
-        ...style,
-      },
-    });
-  }
-  addRectangle(id, size, style) {
-    this.viewer.entities.add({
-      id,
-      rectangle: {
-        coordinates: Cesium.Rectangle.fromDegrees(
-          size.left,
-          size.top,
-          size.right,
-          size.bottom
-        ),
-        extrudedHeight: size.depth,
-        height: size.height,
-        ...style,
-      },
-    });
-  }
-  addPlane(id, pos, size, style) {
-    this.addEntity(id, pos, {
-      plane: {
-        dimensions: new Cesium.Cartesian2(size.width, size.height),
-        ...style,
-      },
-    });
-  }
-  addLine(id, path, style) {
-    this.viewer.entities.add({
-      id,
-      polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArray(path),
-        ...style,
-      },
-    });
-  }
-  addWall(id, path, style) {
-    this.viewer.entities.add({
-      id,
-      wall: {
-        positions: path,
-        ...style,
-      },
-    });
-  }
-  addLabel(id, pos, text, style) {
-    this.addEntity(id, pos, {
-      label: {
-        text: text,
-        ...style,
-      },
-    });
-  }
   addHTML() {}
   addPoint() {}
-  addLineShape(id, path, style) {
-    this.viewer.entities.add({
-      id,
-      polylineVolume: {
-        positions: Cesium.Cartesian3.fromDegreesArray(path),
-        ...style,
-      },
-    });
-  }
+
   onClick() {
     const viewer = this.viewer;
     viewer.screenSpaceEventHandler.setInputAction((mouse) => {
@@ -158,15 +42,14 @@ export default class CesiumBase {
   onSelect() {
     const selected = {
       originalColor: undefined,
-      feature: undefined,
+      feature: undefined
     };
     this.selected = selected;
 
     const viewer = this.viewer;
 
     if (Cesium.PostProcessStageLibrary.isSilhouetteSupported(viewer.scene)) {
-      const outlineEffect =
-        Cesium.PostProcessStageLibrary.createEdgeDetectionStage();
+      const outlineEffect = Cesium.PostProcessStageLibrary.createEdgeDetectionStage();
       outlineEffect.uniforms.color = this.selectedColor;
       outlineEffect.uniforms.length = 0.01;
       outlineEffect.selected = [];
@@ -181,11 +64,7 @@ export default class CesiumBase {
         if (!Cesium.defined(pickedFeature)) {
           return;
         }
-        if (
-          outlineEffect.selected.length &&
-          outlineEffect.selected[0] === pickedFeature
-        )
-          return;
+        if (outlineEffect.selected.length && outlineEffect.selected[0] === pickedFeature) return;
         outlineEffect.selected = [pickedFeature];
         console.log(pickedFeature);
         this.onSelectAction(pickedFeature);
@@ -197,16 +76,10 @@ export default class CesiumBase {
         if (!Cesium.defined(pickedFeature)) {
           return;
         }
-        if (
-          Cesium.defined(selected.feature) &&
-          pickedFeature === selected.feature
-        ) {
+        if (Cesium.defined(selected.feature) && pickedFeature === selected.feature) {
           return;
         }
-        if (
-          Cesium.defined(selected.feature) &&
-          pickedFeature !== selected.feature
-        ) {
+        if (Cesium.defined(selected.feature) && pickedFeature !== selected.feature) {
           //之前选中的对象还原颜色
           selected.feature.color = selected.originalColor;
           selected.feature = undefined;
@@ -227,16 +100,6 @@ export default class CesiumBase {
   }
   onSelectAction(obj) {}
   onClickAction(cartographic, cartesian) {}
-  addEntity(id, pos, set) {
-    this.viewer.entities.add({
-      id,
-      position: Cesium.Cartesian3.fromDegrees(pos.lng, pos.lat, pos.height),
-      ...set,
-    });
-  }
-  getEntityById(id) {
-    //https://cesium.com/learn/cesiumjs/ref-doc/EntityCollection.html
-    return this.viewer.entities.getById(id);
-  }
+
   drawLine() {}
 }

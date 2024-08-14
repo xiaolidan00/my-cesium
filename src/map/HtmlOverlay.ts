@@ -24,7 +24,7 @@ export class HtmlOverlay {
     document.body.appendChild(this.overlayBody);
     this.styleDom = document.createElement('style');
     this.styleDom.id = 'cesium_overlayStyle';
-    this.styleDom.innerHTML = `.cesium_overlayBody{position:absolute;z-index:999;height:100%;width:100%;top:0px;left:0px;pointer-events:none;}
+    this.styleDom.innerHTML = `.cesium_overlayBody{position:absolute;z-index:999;height:100%;width:100%;top:0px;left:0px;pointer-events:none;overflow:hidden;}
     .cesium-html-overlay{position:absolute;pointer-events:auto;}`;
     document.head.appendChild(this.styleDom);
     this.scratch = new Cesium.Cartesian2();
