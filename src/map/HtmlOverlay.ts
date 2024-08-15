@@ -4,7 +4,7 @@ export type HtmlOverlayType = {
   id: string;
   lat: number;
   lng: number;
-  // height: number;
+  height: number;
   content: string;
   data?: any;
   dom?: HTMLDivElement;
@@ -46,7 +46,7 @@ export class HtmlOverlay {
     this.updatePos(set);
   }
   updatePos(item: HtmlOverlayType) {
-    const position = Cesium.Cartesian3.fromDegrees(item.lng, item.lat);
+    const position = Cesium.Cartesian3.fromDegrees(item.lng, item.lat, item.height || 0);
     const dom = item.dom;
     const canvasPosition = this.viewer.scene.cartesianToCanvasCoordinates(position, this.scratch);
     if (dom && Cesium.defined(canvasPosition)) {
