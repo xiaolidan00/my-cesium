@@ -11,6 +11,14 @@ import type {
   SizeType
 } from './types.d';
 
+// ColorMaterialProperty
+// CompositeMaterialProperty
+// GridMaterialProperty
+// ImageMaterialProperty
+// PolylineGlowMaterialProperty
+// PolylineOutlineMaterialProperty
+// StripeMaterialProperty
+
 export class EntityUtil {
   viewer: Cesium.Viewer;
   constructor(viewer: Cesium.Viewer) {

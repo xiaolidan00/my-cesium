@@ -25,6 +25,7 @@ const actions = {
       id: 'label',
       lng: 113.389097,
       lat: 23.050047,
+      height: 100,
       content: '<div style="background:dodgerblue;color:white;padding:16px;">HTML</div>'
     });
   },
