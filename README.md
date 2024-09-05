@@ -1,6 +1,7 @@
 # 1.Cesium
 
 ## camera
+
 ```js
 //禁止模型穿透 
  viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;  
@@ -15,6 +16,7 @@ viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1000;
 ```
 
 ### 限制高度
+
 ```js
  cameraListener = viewer.camera.changed.addEventListener(() => {
         limitCameraHeight();
@@ -193,3 +195,26 @@ viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1000;
   }
 ```
 
+# 缩放等级
+
+```ts
+ /**
+   * 地图高度 转换 地图缩放等级
+   * @param height 地图高度
+   * @returns 地图缩放等级
+   */
+  heightToMapsLevel(height: number) {
+    const h0 = 128538232;
+    return Math.log2(h0 / height);
+  }
+
+  /**
+   * 地图缩放等级 转换 地图高度
+   * @param level 地图缩放等级
+   * @returns 地图高度
+   */
+  mapsLevelToHeight(level: number) {
+    const h0 = 128538232;
+    return h0 / Math.pow(2, level);
+  }
+```
