@@ -43,7 +43,7 @@ viewer.camera.setView({
 //   }
 // });
 viewer.entities.add({
-  id: 'polygon',
+  id: 'rectangle',
   show: true,
   rectangle: {
     coordinates: Cesium.Rectangle.fromDegrees(114.39, 30.5, 114.392, 30.502),
