@@ -18,3 +18,10 @@ hander.setInputAction(
   Cesium.ScreenSpaceEventType.LEFT_CLICK,
   Cesium.KeyboardEventModifier.CTRL
 );
+
+const hander = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+
+hander.setInputAction((ev) => {
+  const pick = viewer.scene.pick(ev.position);
+  console.log(pick.id);
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);

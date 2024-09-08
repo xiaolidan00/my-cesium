@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">   
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+  const viewer = new Cesium.Viewer("cesiumContainer", {
+  terrain: Cesium.Terrain.fromWorldTerrain(),
+});
+
+viewer.scene.globe.depthTestAgainstTerrain = true;
+
+// Set the initial camera view to look at Manhattan
+const initialPosition = Cesium.Cartesian3.fromDegrees(
+  -74.01881302800248,
+  40.69114333714821,
+  753
+);
+const initialOrientation = new Cesium.HeadingPitchRoll.fromDegrees(
+  21.27879878293835,
+  -21.34390550872461,
+  0.0716951918898415
+);
+viewer.scene.camera.setView({
+  destination: initialPosition,
+  orientation: initialOrientation,
+  endTransform: Cesium.Matrix4.IDENTITY,
+});
+
+// Load the NYC buildings tileset
+try {
+  const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(75343);
+  viewer.scene.primitives.add(tileset);
+} catch (error) {
+  console.log(`Error loading tileset: ${error}`);
+}
+
+  </script>
+ </div>
+</body>
+</html>
