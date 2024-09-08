@@ -21,3 +21,18 @@ viewer.scene.screenSpaceCameraController.zoomEventTypes = [
   Cesium.CameraEventType.WHEEL,
   Cesium.CameraEventType.PINCH
 ];
+
+//看向某个物体，并旋转角度
+viewer.entities.add({
+  id: 'box',
+  position: Cesium.Cartesian3.fromDegrees(114.39, 30.5, 100.0),
+  box: {
+    dimensions: new Cesium.Cartesian3(100, 50, 30),
+    material: Cesium.Color.BLUE
+  }
+});
+viewer.camera.lookAt(
+  Cesium.Cartesian3.fromDegrees(114.39, 30.5, 100.0),
+  new Cesium.HeadingPitchRange(Cesium.Math.toRadians(45), Cesium.Math.toRadians(-30), 300)
+);
+viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
