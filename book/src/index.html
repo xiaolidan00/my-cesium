@@ -29,7 +29,12 @@
     <script type="module">
       async function main() {
         const viewer = new Cesium.Viewer('cesiumContainer');
-
+        const helper = new Cesium.EventHelper();
+        helper.add(viewer.scene.globe.tileLoadProgressEvent, (ev) => {
+          if (ev === 0) {
+            console.log(ev);
+          }
+        });
         viewer.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(114, 30, 100.0),
           orientation: {

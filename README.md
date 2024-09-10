@@ -218,3 +218,6 @@ viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1000;
     return h0 / Math.pow(2, level);
   }
 ```
+
+# HTML Overlay
+<https://sandcastle.cesium.com/?src=HTML%20Overlays.html&label=All>
