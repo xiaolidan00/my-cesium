@@ -28,6 +28,9 @@ try {
 
 //3dtiles模型 高度采样clampToHeightMostDetailed
 //https://cesium.com/learn/cesiumjs/ref-doc/Scene.html#clampToHeightMostDetailed
-
+const count = 30;
+const clampedCartesians = await scene.clampToHeightMostDetailed(
+  Cesium.Cartesian3.lerp(cartesian1, cartesian2, offset, new Cesium.Cartesian3())
+);
 //gltf模型 高度采样
 //https://cesium.com/learn/cesiumjs/ref-doc/Scene.html#sampleHeightMostDetailed

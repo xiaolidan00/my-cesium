@@ -23,7 +23,7 @@ let synchoronizer = new Cesium.VideoSynchronizer({
   clock: viewer.clock,
   element: videoDom
 });
-
+viewer.clock.shouldAnimate = true;
 const sphere = viewer.entities.add({
   position: Cesium.Cartesian3.fromDegrees(114, 30, 100.0),
   ellipsoid: {
