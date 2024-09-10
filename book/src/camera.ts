@@ -23,7 +23,7 @@ viewer.scene.screenSpaceCameraController.zoomEventTypes = [
 ];
 
 //看向某个物体，并旋转角度
-viewer.entities.add({
+const box = viewer.entities.add({
   id: 'box',
   position: Cesium.Cartesian3.fromDegrees(114.39, 30.5, 100.0),
   box: {
@@ -36,3 +36,4 @@ viewer.camera.lookAt(
   new Cesium.HeadingPitchRange(Cesium.Math.toRadians(45), Cesium.Math.toRadians(-30), 300)
 );
 viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+viewer.flyTo(box);

@@ -14,7 +14,11 @@ viewer.camera.setView({
   }
 });
 //https://sandcastle.cesium.com/index.html?src=Video.html
-const videoDom = document.getElementById('video') as HTMLVideoElement;
+const videoDom = document.createElement('video');
+videoDom.src = './assets/big-buck-bunny_trailer.mp4';
+videoDom.loop = true;
+videoDom.autoplay = true;
+document.body.appendChild(videoDom);
 let synchoronizer = new Cesium.VideoSynchronizer({
   clock: viewer.clock,
   element: videoDom
