@@ -227,3 +227,6 @@ viewer.scene.primitives.add(
     })
   })
 );
+
+//调整顺序
+viewer.scene.primitives.raiseToTop(polyline);
