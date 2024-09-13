@@ -7,7 +7,7 @@
     <!-- <script src="./Cesium/Cesium.js"></script>
     <link href="./Cesium/Widgets/widgets.css" rel="stylesheet" /> -->
     <script src="/node_modules/cesium/Build/Cesium/Cesium.js"></script>
-    <link href="../../node_modules/cesium/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+    <link href="/node_modules/cesium/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
     <style>
       body,
       #cesiumContainer {
@@ -33,7 +33,7 @@
   <body>
     <div id="cesiumContainer"></div>
     <script type="module">
-      import CustomLinePrimitive from './CustomLinePrimitive.js';
+      //   import CustomLinePrimitive from './CustomLinePrimitive.js';
       async function main() {
         // const url = `https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}`;
         // const imageryProvider = new Cesium.UrlTemplateImageryProvider({
@@ -52,34 +52,50 @@
             roll: 0.0
           }
         });
+        //修改鼠标右键为倾斜视角操作
+        viewer.scene.screenSpaceCameraController.tiltEventTypes = [
+          Cesium.CameraEventType.RIGHT_DRAG,
+          Cesium.CameraEventType.PINCH,
+          {
+            eventType: Cesium.CameraEventType.LEFT_DRAG,
+            modifier: Cesium.KeyboardEventModifier.CTRL
+          },
+          {
+            eventType: Cesium.CameraEventType.RIGHT_DRAG,
+            modifier: Cesium.KeyboardEventModifier.CTRL
+          }
+        ];
+        //修改鼠标滚轮为缩放操作
+        viewer.scene.screenSpaceCameraController.zoomEventTypes = [
+          Cesium.CameraEventType.MIDDLE_DRAG,
+          Cesium.CameraEventType.WHEEL,
+          Cesium.CameraEventType.PINCH
+        ];
+
+        viewer.scene.screenSpaceCameraController.enableTilt = false;
         let polyline = new Cesium.GeometryInstance({
-          geometry: new Cesium.PolylineGeometry({
-            positions: Cesium.Cartesian3.fromDegreesArray([114, 30, 114.002, 30, 114.002, 30.002]),
-            width: 5
+          geometry: new Cesium.PolygonGeometry({
+            perPositionHeight: true,
+            polygonHierarchy: new Cesium.PolygonHierarchy(
+              Cesium.Cartesian3.fromDegreesArrayHeights([
+                114, 30, 10, 114.002, 30, 20, 114.002, 30.002, 30
+              ])
+            )
           })
         });
         //https://cesium.com/learn/cesiumjs/ref-doc/Material.html?classFilter=Material
-        let polylineAppearance = new Cesium.PolylineMaterialAppearance({
+        let polylineAppearance = new Cesium.MaterialAppearance({
           material: Cesium.Material.fromType('Color', {
             color: new Cesium.Color(1.0, 1.0, 0.0, 1.0)
           })
         });
-
+        console.log(polylineAppearance);
         viewer.scene.primitives.add(
           new Cesium.Primitive({
             geometryInstances: polyline,
             appearance: polylineAppearance
           })
         );
-        const line = new CustomLinePrimitive({
-          positions: [114, 30, 114.002, 30, 114.002, 30.002],
-          width: 5,
-          color: Cesium.Color.RED
-        });
-        viewer.scene.primitives.add(line);
-        setTimeout(() => {
-          line.positions = [114, 30, 114.002, 30];
-        }, 3000);
       }
       main();
     </script>
