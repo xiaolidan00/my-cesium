@@ -1,7 +1,13 @@
 import * as Cesium from 'cesium';
 
 const viewer = new Cesium.Viewer('cesiumContainer');
-
+/**http://cesium.xin/cesium/cn/Documentation1.62/ScreenSpaceCameraController.html?classFilter=screenSpaceCameraController
+ * rotateEventTypes : CameraEventType|Array|undefined
+ * tiltEventTypes
+ * translateEventTypes
+ * zoomEventTypes
+ * lookEventTypes
+ */
 //修改鼠标右键为倾斜视角操作
 viewer.scene.screenSpaceCameraController.tiltEventTypes = [
   Cesium.CameraEventType.RIGHT_DRAG,
@@ -21,6 +27,11 @@ viewer.scene.screenSpaceCameraController.zoomEventTypes = [
   Cesium.CameraEventType.WHEEL,
   Cesium.CameraEventType.PINCH
 ];
+/**
+ * 控制缩放
+ * minimumZoomDistance
+ * maximumZoomDistance
+ */
 
 //看向某个物体，并旋转角度
 const box = viewer.entities.add({
