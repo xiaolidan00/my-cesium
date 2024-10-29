@@ -101,7 +101,7 @@ export class PosUtil {
   }
   static pickTerrainPos(c: Cesium.Cartesian2) {
     let cartesian;
-    if (this.viewer.terrainProvider instanceof Cesium.EllipsoidTerrainProvider) {
+    if (this.viewer.terrainProvider instanceof Cesium.TerrainProvider) {
       const ray = this.viewer.camera.getPickRay(c);
       if (ray) {
         cartesian = this.viewer.scene.globe.pick(ray, this.viewer.scene);

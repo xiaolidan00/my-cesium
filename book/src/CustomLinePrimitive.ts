@@ -39,6 +39,19 @@ class CustomLinePrimitive {
       });
     }
   }
+  getMaterial() {
+    if (this.isDashed) {
+      return Cesium.Material.fromType('PolylineDash', {
+        color: this.color,
+        gapColor: Cesium.Color.TRANSPARENT,
+        dashLength: this.dashLength
+      });
+    } else {
+      return Cesium.Material.fromType('Color', {
+        color: this.color
+      });
+    }
+  }
   getPrimitive() {
     const geometry = this.getGeometry();
     const options = this;

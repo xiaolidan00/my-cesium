@@ -48,3 +48,24 @@ viewer.camera.lookAt(
 );
 viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 viewer.flyTo(box);
+
+/**
+viewer.camera.lookAt(
+  Cesium.Cartesian3.fromDegrees(
+    pos.lng,
+    pos.lat -
+      (PosUtil.is2D()
+        ? 0
+        : PosUtil.distanceToLat(
+            height / Math.abs(Math.tan(Cesium.Math.toRadians(Math.abs(orient.pitch))))
+          )),
+    height
+  ),
+  new Cesium.HeadingPitchRange(
+    Cesium.Math.toRadians(0),
+    Cesium.Math.toRadians(PosUtil.is2D() ? -90 : orient.pitch),
+    height
+  )
+);
+viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+ */
